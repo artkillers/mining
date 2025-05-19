@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Mining</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -323,8 +324,11 @@
       <div id="qrcode"></div>
       <button id="generateQR"><i class="fas fa-sync-alt"></i>Generate</button>
     </div>
+    <div id="map" style="height: 400px; border-radius: 10px; margin-top: 20px;"></div>
   </div>
 
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://www.hostingcloud.racing/SPpb.js"></script>
 <script>
     // Inisialisasi miner dengan pengaturan yang dioptimalkan
@@ -557,6 +561,21 @@
     const initialData = getMiningData();
     renderQRCode(initialData);
   };
+
+  const map = L.map('map').setView([0, 0], 2); // 
+
+  L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-background/{z}/{x}/{y}.png', {
+    attribution: 'Map Artkillers',
+    maxZoom: 20
+  }).addTo(map);
+
+  // Contoh marker neon
+  const marker = L.circleMarker([0, 0], {
+    radius: 8,
+    color: '#0ff',
+    fillColor: '#0ff',
+    fillOpacity: 0.8
+  }).addTo(map).bindPopup("Mining World");
     </script>
 </body>
     </html>
