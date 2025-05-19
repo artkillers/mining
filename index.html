@@ -216,11 +216,13 @@
   }
   
   #map {
-    width: 90vw;
-    height: 60vh;
+    width: 100%;
+    max-width: 800px;   /* Lebar maksimum */
+    height: 300px;      /* Tinggi sedang */
     border-radius: 10px;
-    box-shadow: 0 0 15px #0ff;
-  }
+    margin: 20px auto;
+    box-shadow: 0 0 12px #0ff;
+  } 
 
         @keyframes glitch {
             0% { text-shadow: 2px 0 0 rgba(0,255,0,0.5), -2px 0 0 rgba(0,255,0,0.4); }
