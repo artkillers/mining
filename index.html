@@ -568,21 +568,42 @@
     renderQRCode(initialData);
   };
 
-  const map = L.map('map').setView([0, 0], 2); // 
+  // Inisialisasi map dengan center default dan zoom 2
+const map = L.map('map').setView([0, 0], 2);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+// Pasang tile layer dark dari CartoDB
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://artkillers.github.io">ArtKillers</a>',
   subdomains: 'abcd',
-  maxZoom: 19
+  maxZoom: 19,
 }).addTo(map);
 
-  // Contoh marker neon
-  const marker = L.circleMarker([0, 0], {
-    radius: 8,
-    color: '#0ff',
-    fillColor: '#0ff',
-    fillOpacity: 0.8
-  }).addTo(map).bindPopup("Mining World");
+// Minta izin lokasi dan pusatkan map ke lokasi user
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      map.setView([lat, lon], 13);
+
+      // Marker neon di lokasi user
+      L.circleMarker([lat, lon], {
+        radius: 10,
+        color: '#0ff',
+        fillColor: '#0ff',
+        fillOpacity: 0.8,
+      })
+        .addTo(map)
+        .bindPopup('Lokasi kamu sekarang')
+        .openPopup();
+    },
+    (err) => {
+      console.warn('Gagal dapat lokasi:', err.message);
+    }
+  );
+} else {
+  alert('Geolocation tidak didukung oleh browser ini');
+}
     </script>
 </body>
     </html>
