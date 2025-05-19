@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Mining</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -509,46 +509,50 @@
     );
   }
 
-function generateQRCode() {
-  const qrData = "Real-time mining data: " + new Date().toLocaleString();
-  const canvas = document.createElement("canvas");
+  // Print QR code
+  document.getElementById('printQR').addEventListener('click', () => {
+    const qrCanvas = document.querySelector('#qrcode canvas');
+    if (!qrCanvas) return alert('QR Code belum dibuat.');
+    const dataUrl = qrCanvas.toDataURL();
 
-  QRCode.toCanvas(canvas, qrData, {
-    errorCorrectionLevel: 'H', // Tingkat koreksi tinggi
-    scale: 10, // ukuran besar agar tajam saat di-print
-    margin: 1,
-    color: {
-      dark: "#00ff00",
-      light: "#000000"
-    }
-  }, function (error) {
-    if (error) console.error(error);
-    const qrContainer = document.getElementById("qrcode");
-    qrContainer.innerHTML = "";
-    qrContainer.appendChild(canvas);
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`<html><head><title>Print QR Code</title></head><body style="text-align:center; background-color:#000; color:#0f0;">
+      <img src="${dataUrl}" style="width:250px; height:250px;"/>
+      <p>Mining Data QR Code</p>
+      </body></html>`);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
   });
-}
 
-function downloadQRCode() {
-  const canvas = document.querySelector("#qrcode canvas");
-  const link = document.createElement("a");
-  link.download = "qr-mining.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
+  // Download QR code
+  document.getElementById('downloadQR').addEventListener('click', () => {
+    const qrCanvas = document.querySelector('#qrcode canvas');
+    if (!qrCanvas) return alert('QR Code belum dibuat.');
+    const dataUrl = qrCanvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `mining-data-${Date.now()}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
 
-function printQRCode() {
-  const canvas = document.querySelector("#qrcode canvas");
-  const dataUrl = canvas.toDataURL("image/png");
+  // Generate button reloads QR code with updated data
+  document.getElementById('generateQR').addEventListener('click', () => {
+    // Bisa juga reload halaman: location.reload();
+    // Tapi kita cukup regenerate QR code saja supaya lancar
 
-  const printWindow = window.open('', '_blank');
-  printWindow.document.write('<html><head><title>Print QR Code</title></head><body style="background:#fff; text-align:center;">');
-  printWindow.document.write('<img src="' + dataUrl + '" style="width:200px; height:200px; margin-top:50px;">');
-  printWindow.document.write('</body></html>');
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
-}
+    const newData = getMiningData();
+    renderQRCode(newData);
+  });
+
+  // Initial generate
+  window.onload = () => {
+    const initialData = getMiningData();
+    renderQRCode(initialData);
+  };
     </script>
 </body>
     </html>
