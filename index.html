@@ -157,21 +157,31 @@
             margin-top: 20px;
         }
         
-          /* Tambahan style untuk QR code dan tombol */
-  .qr-section {
-    margin-top: 30px;
-    text-align: center;
-    color: #00ff00;
-  }
-  #qrcode {
-    margin: 0 auto 15px auto;
-    width: 180px;
-    height: 180px;
-    background: #000;
-    padding: 10px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #00ff00;
-  }
+.qr-section {
+  margin-top: 40px;
+  text-align: center;
+  color: #00ff00;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+        
+#generateQR {
+  margin-top: 10px;
+}
+
+#qrcode {
+  width: 180px;
+  height: 180px;
+  background: #000;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00ff00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    }
   .btn-group {
     display: flex;
     justify-content: center;
